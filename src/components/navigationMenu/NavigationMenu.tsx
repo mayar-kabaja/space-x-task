@@ -4,11 +4,12 @@ import { ItemType } from 'antd/lib/menu/hooks/useItems';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { SettingOutlined, RocketOutlined } from '@ant-design/icons';
+import { useObserver } from 'mobx-react-lite';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
 interface IMyProps {
-    setLang: Function;
+  setLang: Function;
 }
 
 function getItem(
@@ -34,6 +35,7 @@ for (let i = 1; i <= 110; i += 1) {
 
 const NavigationMenu: React.FC<IMyProps> = ({ setLang }: IMyProps) => {
   const { t } = useTranslation();
+
   const onClick = ({ key }: any) => {
     if (key === 'ar' || key === 'en') {
       setLang(key);
@@ -43,6 +45,7 @@ const NavigationMenu: React.FC<IMyProps> = ({ setLang }: IMyProps) => {
       localStorage.setItem('distance', key);
     }
   };
+
   const items = [
     getItem(t('setting'), 'setting', <SettingOutlined />, [
       getItem(t('language'), 'language', null, [
@@ -101,14 +104,9 @@ const NavigationMenu: React.FC<IMyProps> = ({ setLang }: IMyProps) => {
     ]),
     getItem(t('missions'), 'missions', null),
   ];
-  return (
-    <Menu
-      onClick={onClick}
-      style={{ width: 300 }}
-      mode="horizontal"
-      items={items}
-    />
-  );
+  return useObserver(() => (
+    <Menu onClick={onClick} style={{ width: 300 }} mode="horizontal" items={items} />
+  ));
 };
 
 export default NavigationMenu;
