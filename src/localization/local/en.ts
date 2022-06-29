@@ -12,7 +12,7 @@ const en = {
   launch: 'Lanuch',
   'launch year': 'Launch Year',
   'rocket core': 'Rocket Core',
-  'flright number': 'Flright Number',
+  'flight number': 'Flight Number',
   'rocket firing': 'Rocket Firing',
   'rocket name': 'Rocket Name',
   lanching: 'Lanching',
