@@ -1,10 +1,12 @@
 import { observable, action } from 'mobx';
+import React from 'react';
 import { getLaunchs, getOneLaunch } from '../api';
+import { Launch } from '../../utils';
 
 class LaunchsStore {
-  @observable launchs: object[] = [];
+  @observable launchs: Launch[] = [];
 
-  @observable filterLaunchs: object[] = [];
+  @observable filterLaunchs: Launch[] = [];
 
   @action
     addLaunchs = () => {
@@ -14,12 +16,12 @@ class LaunchsStore {
       });
     };
 
-    @action
-      addOneLaunch = (flightNumber: number) => {
-        getOneLaunch(flightNumber).then((launch) => {
-          this.filterLaunchs = [];
-          this.filterLaunchs.push(launch);
-        });
-      };
+  @action
+    addOneLaunch = (flightNumber: number) => {
+      getOneLaunch(flightNumber).then((launch) => {
+        this.filterLaunchs = [];
+        this.filterLaunchs.push(launch);
+      });
+    };
 }
 export default LaunchsStore;
