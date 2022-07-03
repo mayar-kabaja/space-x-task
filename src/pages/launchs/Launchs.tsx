@@ -6,6 +6,7 @@ import { observer } from 'mobx-react-lite';
 import {
   Col, Divider, Row, Space, Spin,
 } from 'antd';
+import { Link } from 'react-router-dom';
 import { Select, Table } from '../../components';
 import { useRootStore } from '../../RootStateContext';
 
@@ -46,27 +47,27 @@ const columns = [
     title: 'Reddit',
     dataIndex: 'reddit',
     render: (link: string) => (
-      <a href={link}>
+      <Link to={link}>
         <RedditOutlined />
-      </a>
+      </Link>
     ),
   },
   {
     title: 'Wikipedia',
     dataIndex: 'wikipedia',
     render: (link: string) => (
-      <a href={link}>
+      <Link to={link}>
         <LinkOutlined />
-      </a>
+      </Link>
     ),
   },
   {
     title: 'Youtube',
     dataIndex: 'youtube',
     render: (link: string) => (
-      <a href={link}>
+      <Link to={link}>
         <YoutubeOutlined />
-      </a>
+      </Link>
     ),
   },
 ];
