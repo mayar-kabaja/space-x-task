@@ -1,3 +1,3 @@
-import { Launch, Columns } from './types';
+import { Launch, Columns, Mission } from './types';
 
-export { Launch, Columns };
+export { Launch, Columns, Mission };
