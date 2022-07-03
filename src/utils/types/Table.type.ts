@@ -1,7 +1,7 @@
 import React from 'react';
 
 export type Columns = {
-  key: React.Key;
+  [key: string]: any;
   'Mission icon': string;
   reddit: string;
   wikipedia: string;

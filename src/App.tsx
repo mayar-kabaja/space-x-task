@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import { useObserver } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
 import { ConfigProvider } from 'antd';
-import { NavigationMenu, Table } from './components';
+import { NavigationMenu } from './components';
+import { Launchs } from './pages';
 
-function App() {
+const App = () => {
   const { i18n } = useTranslation();
   const [lang, setLang] = useState(i18n.language);
 
@@ -14,13 +14,13 @@ function App() {
     document.dir = lang === 'en' ? 'ltr' : 'rtl';
     document.documentElement.lang = lang;
   }, [lang]);
-  return useObserver(() => (
+  return (
     <div className="App">
       <ConfigProvider direction={lang === 'ar' ? 'rtl' : 'ltr'}>
         <NavigationMenu setLang={setLang} />
+        <Launchs />
       </ConfigProvider>
     </div>
-  ));
-}
-
+  );
+};
 export default App;
