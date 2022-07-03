@@ -1,10 +1,10 @@
+/* eslint-disable no-mixed-operators */
 /* eslint-disable eqeqeq */
 /* eslint-disable max-len */
 /* eslint-disable class-methods-use-this */
 import {
-  observable, action, makeObservable, runInAction,
+  observable, action, makeObservable, runInAction, computed,
 } from 'mobx';
-import React from 'react';
 import { getLaunchs } from '../api';
 import { Launch } from '../../utils';
 
@@ -36,51 +36,46 @@ class LaunchsStore {
     makeObservable(this);
   }
 
-  @action
-    addLaunchs = async () => {
-      const launchs = await getLaunchs();
-      runInAction(() => {
-        const filteByFlightNumber = this.filters.flightNumber === 'All'
-          ? launchs
-          : launchs.filter(({ flight_number }) => flight_number === this.filters.flightNumber);
-        const filteBylaunchYear = this.filters.launchYear === 'All'
-          ? launchs
-          : launchs.filter(({ launch_year }) => +launch_year === this.filters.launchYear);
-        const filteByLanding = this.filters.landing === 'All'
-          ? launchs
-          : launchs.filter(
-            ({
-              rocket: {
-                first_stage: {
-                  cores: [{ land_success }],
-                },
-              },
-            }) => ((this.filters.landing === 'success' && land_success === true) || (this.filters.landing === 'fail' && land_success === false)),
-          );
-        const filteBylaunchSuccess = this.filters.lanching === 'All'
-          ? launchs
-          : launchs.filter(({ launch_success }) => (this.filters.lanching === 'success' && launch_success === true) || (this.filters.lanching === 'fail' && launch_success === false));
-        const filteByRocketName = this.filters.rocketName === 'All'
-          ? launchs
-          : launchs.filter(({ rocket: { rocket_name } }) => rocket_name === this.filters.rocketName);
-        // eslint-disable-next-line no-multi-assign
-        const filteByRocetCore = this.filters.rocketCore === 'All'
-          ? launchs
-          : launchs.filter(({ rocket: { first_stage: { cores: [{ reused }] } } }) => (this.filters.rocketCore === 'reused' && reused === true) || (this.filters.lanching === 'not reused' && reused === false));
-        // eslint-disable-next-line no-multi-assign
-        const filteByfairings = this.filters.rocketFiring === 'All'
-          ? launchs
-          : launchs.filter(({ rocket: { fairings } }) => (this.filters.rocketFiring === 'reused' && fairings?.reused === true) || (this.filters.rocketFiring === 'not reused' && fairings?.reused === false));
+  @computed
+  get filteredLaunchs() {
+    const filtered = this.launchs.filter(({
+      flight_number, launch_year, launch_success, rocket: { first_stage: { cores: [{ land_success, reused }] }, rocket_name, fairings },
+    }) => {
+      const {
+        flightNumber, launchYear, lanching, landing, rocketCore, rocketFiring, rocketName,
+      } = this.filters;
+      if (flightNumber !== 'All' && flight_number != flightNumber) {
+        return false;
+      }
+      if (launchYear !== 'All' && launch_year != launchYear) {
+        return false;
+      }
+      if (lanching !== 'All' && (lanching === 'success' && launch_success === false || lanching === 'fail' && launch_success === true)) {
+        return false;
+      }
+      if (landing !== 'All' && (landing === 'success' && land_success === false || landing === 'fail' && land_success === true)) {
+        return false;
+      }
+      if (rocketName !== 'All' && rocket_name != rocketName) {
+        return false;
+      }
+      if (rocketCore !== 'All' && (rocketCore === 'reused' && reused === false || rocketCore === 'not reused' && land_success === true)) {
+        return false;
+      }
+      if (rocketFiring !== 'All' && (rocketFiring === 'reused' && fairings?.reused === false || rocketFiring === 'not reused' && fairings?.reused === true)) {
+        return false;
+      }
+      return true;
+    });
 
-        this.launchs = filteByFlightNumber.filter((launch) => filteBylaunchYear.indexOf(launch) !== -1
-        && filteByFlightNumber.indexOf(launch) !== -1
-        && filteByLanding.indexOf(launch) !== -1
-        && filteBylaunchSuccess.indexOf(launch) !== -1
-        && filteByRocketName.indexOf(launch) !== -1
-        && filteByRocetCore.indexOf(launch) !== -1
-        && filteByfairings.indexOf(launch) !== -1);
-        this.isLoading = true;
-      });
+    return filtered;
+  }
+
+  @action
+    getLaunch = async () => {
+      const launchs = await getLaunchs();
+      this.launchs = launchs;
+      this.isLoading = true;
     };
 }
 
