@@ -1,3 +1,3 @@
-import { LaunchsStore } from './stores';
+import { LaunchsStore, MissionsStore } from './stores';
 
-export { LaunchsStore };
+export { LaunchsStore, MissionsStore };
