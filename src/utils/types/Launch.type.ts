@@ -11,6 +11,14 @@ export type Launch = {
   };
   rocket: {
     rocket_name: string;
+    first_stage : {
+      cores : [
+        {
+          reused : boolean,
+          land_success: boolean,
+        }
+      ]
+    }
     second_stage: {
       payloads: [
         {
@@ -18,8 +26,14 @@ export type Launch = {
         }
       ];
     };
+    fairings :{
+      reused : boolean,
+    }
   };
   launch_date_utc: string;
   mission_name: string;
   upcoming: boolean;
+  launch_year: string;
+  launch_success: boolean;
+  flight_number: number;
 };

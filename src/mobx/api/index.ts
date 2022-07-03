@@ -1,3 +1,3 @@
-import { getLaunchs, getOneLaunch } from './LaunchsApi';
+import { getLaunchs } from './LaunchsApi';
 
-export { getLaunchs, getOneLaunch };
+export { getLaunchs };
