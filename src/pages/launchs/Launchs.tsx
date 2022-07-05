@@ -47,27 +47,27 @@ const columns = [
     title: 'Reddit',
     dataIndex: 'reddit',
     render: (link: string) => (
-      <Link to={link}>
+      <a href={link}>
         <RedditOutlined />
-      </Link>
+      </a>
     ),
   },
   {
     title: 'Wikipedia',
     dataIndex: 'wikipedia',
     render: (link: string) => (
-      <Link to={link}>
+      <a href={link}>
         <LinkOutlined />
-      </Link>
+      </a>
     ),
   },
   {
     title: 'Youtube',
     dataIndex: 'youtube',
     render: (link: string) => (
-      <Link to={link}>
+      <a href={link}>
         <YoutubeOutlined />
-      </Link>
+      </a>
     ),
   },
 ];
@@ -85,32 +85,29 @@ const Launchs = () => {
   const { launchsStore } = useRootStore();
 
   const {
-    launchs, addLaunchs, isLoading, filters,
+    launchs, getLaunch, isLoading, filters, filteredLaunchs,
   } = launchsStore;
 
-  const [data, setData] = useState<any>();
+  const data = useMemo(() => filteredLaunchs.map(({
+    links, launch_site, launch_date_utc, mission_name, rocket, upcoming,
+  }) => {
+    return {
+      missionIcon: links.mission_patch_small,
+      reddit: links.reddit_media,
+      wikipedia: links.wikipedia,
+      youtube: links.video_link,
+      launchSite: launch_site.site_name,
+      launchDate: launch_date_utc,
+      missionName: mission_name,
+      rocket: rocket.rocket_name,
+      rocketCountry: rocket.second_stage.payloads[0].nationality,
+      isUpcoming: upcoming.toString(),
+    };
+  }), [filteredLaunchs]);
 
   useEffect(() => {
-    addLaunchs();
-    setData(
-      launchs.map(({
-        links, launch_site, launch_date_utc, mission_name, rocket, upcoming,
-      }) => {
-        return {
-          missionIcon: links.mission_patch_small,
-          reddit: links.reddit_media,
-          wikipedia: links.wikipedia,
-          youtube: links.video_link,
-          launchSite: launch_site.site_name,
-          launchDate: launch_date_utc,
-          missionName: mission_name,
-          rocket: rocket.rocket_name,
-          rocketCountry: rocket.second_stage.payloads[0].nationality,
-          isUpcoming: upcoming.toString(),
-        };
-      }),
-    );
-  }, [isLoading, launchs]);
+    getLaunch();
+  }, []);
 
   return (
     <>
