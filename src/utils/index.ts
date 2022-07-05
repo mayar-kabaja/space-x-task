@@ -1,3 +1,13 @@
-import { Launch, Columns, Mission } from './types';
+import {
+  Launch,
+  Columns,
+  Mission,
+  Payload,
+} from './types';
 
-export { Launch, Columns, Mission };
+export {
+  Launch,
+  Columns,
+  Mission,
+  Payload,
+};

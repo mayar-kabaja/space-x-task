@@ -3,6 +3,7 @@ import { Menu } from 'antd';
 import { ItemType } from 'antd/lib/menu/hooks/useItems';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { SettingOutlined, RocketOutlined } from '@ant-design/icons';
 import { observer } from 'mobx-react-lite';
 import { useRootStore } from '../../RootStateContext';
@@ -33,6 +34,7 @@ const NavigationMenu: React.FC<IMyProps> = ({ setLang }: IMyProps) => {
   const { t } = useTranslation();
   const { launchsStore } = useRootStore();
   const { filters } = launchsStore;
+  const navigate = useNavigate();
 
   const onClick = ({ key, keyPath }: any) => {
     if (keyPath[1] === 'flight-number') {
@@ -43,6 +45,8 @@ const NavigationMenu: React.FC<IMyProps> = ({ setLang }: IMyProps) => {
       localStorage.setItem('weight', key);
     } else if (key === 'feet' || key === 'meters') {
       localStorage.setItem('distance', key);
+    } else if (key === 'missions') {
+      navigate('/missions');
     }
   };
   const items = [

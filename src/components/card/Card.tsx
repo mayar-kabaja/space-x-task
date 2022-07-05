@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card as AntdCard } from 'antd';
-import { Link } from 'react-router-dom';
 
 const { Meta } = AntdCard;
 
@@ -11,24 +10,50 @@ interface IMyProps {
   wikipedia: string;
   website: string;
   twitter: string;
+  isHoverable: boolean;
+  payload_id: string;
+  handleClick: (e:any) => any
+  key: string;
 }
 
 const Card = ({
-  name, description, manufacturers, wikipedia, website, twitter,
+  name,
+  description,
+  manufacturers,
+  wikipedia,
+  website,
+  twitter,
+  isHoverable,
+  payload_id,
+  handleClick,
+  key,
 }: IMyProps) => {
   return (
     <AntdCard
+      hoverable={isHoverable}
+      onClick={handleClick}
+      key={key}
       style={{
-        width: 300,
+        width: 430,
+        marginBottom: 10,
       }}
       actions={[
-        <Link to={wikipedia}>wikipedia</Link>,
-        <Link to={website}>website</Link>,
-        <Link to={twitter}>twitter</Link>,
+        <a href={wikipedia}>wikipedia</a>,
+        <a href={website}>website</a>,
+        <a href={twitter}>twitter</a>,
       ]}
     >
       <Meta title={name} description={description} />
-      <span>{manufacturers}</span>
+      <p style={{ marginTop: '1rem' }}>
+        Manufacturers :
+        {' '}
+        {manufacturers}
+      </p>
+      <p>
+        payload id :
+        {' '}
+        {`${payload_id}...`}
+      </p>
     </AntdCard>
   );
 };
