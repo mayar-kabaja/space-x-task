@@ -22,6 +22,8 @@ class LaunchsStore {
 
   @observable isLoading = false;
 
+  @observable hiddenColumns : string[] = [];
+
   @observable filters : obj = {
     launchYear: 'All',
     rocketCore: 'All',
@@ -76,6 +78,11 @@ class LaunchsStore {
       const launchs = await getLaunchs();
       this.launchs = launchs;
       this.isLoading = true;
+    };
+
+  @action
+    addHiddenColumns = (columns : string[]) => {
+      this.hiddenColumns = columns;
     };
 }
 

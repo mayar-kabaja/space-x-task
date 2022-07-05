@@ -1,47 +1,64 @@
+/* eslint-disable react/button-has-type */
+/* eslint-disable eqeqeq */
+/* eslint-disable react/jsx-wrap-multilines */
+/* eslint-disable react/jsx-first-prop-new-line */
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { useEffect, useMemo, useState } from 'react';
 import { RedditOutlined, LinkOutlined, YoutubeOutlined } from '@ant-design/icons';
 import { observer } from 'mobx-react-lite';
 import {
-  Col, Divider, Row, Space, Spin,
+  Button,
+  Col, Modal, Row, Space, Spin,
 } from 'antd';
-import { Link } from 'react-router-dom';
-import { Select, Table } from '../../components';
+import { Select, Table, Trancfer } from '../../components';
 import { useRootStore } from '../../RootStateContext';
 
 const columns = [
   {
     title: 'Mission Icon',
     dataIndex: 'missionIcon',
-    // eslint-disable-next-line jsx-a11y/alt-text
     render: (link: string) => <img src={link} style={{ width: '30px' }} />,
+    typeof: '0',
   },
   {
     title: 'Launch Site',
     dataIndex: 'launchSite',
+    typeof: '1',
+
   },
   {
     title: 'Rockect',
     dataIndex: 'rocket',
+    typeof: '2',
+
   },
   {
     title: 'Rocket Country',
     dataIndex: 'rocketCountry',
+    typeof: '3',
+
   },
   {
     title: 'Launch date',
     dataIndex: 'launchDate',
     render: (date: string) => date.split('T')[0],
+    typeof: '4',
+
   },
   {
     title: 'Mission name',
     dataIndex: 'missionName',
+    typeof: '5',
+
   },
   {
     title: 'Is upcoming',
     dataIndex: 'isUpcoming',
     render: (value: boolean) => (value ? 'Yes' : 'No'),
+    typeof: '6',
+
   },
   {
     title: 'Reddit',
@@ -51,6 +68,7 @@ const columns = [
         <RedditOutlined />
       </a>
     ),
+    typeof: '7',
   },
   {
     title: 'Wikipedia',
@@ -60,6 +78,7 @@ const columns = [
         <LinkOutlined />
       </a>
     ),
+    typeof: '8',
   },
   {
     title: 'Youtube',
@@ -69,6 +88,7 @@ const columns = [
         <YoutubeOutlined />
       </a>
     ),
+    typeof: '9',
   },
 ];
 const arrayOfFlrightNumber: any[] = [];
@@ -85,8 +105,9 @@ const Launchs = () => {
   const { launchsStore } = useRootStore();
 
   const {
-    launchs, getLaunch, isLoading, filters, filteredLaunchs,
+    getLaunch, isLoading, filters, filteredLaunchs, hiddenColumns,
   } = launchsStore;
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const data = useMemo(() => filteredLaunchs.map(({
     links, launch_site, launch_date_utc, mission_name, rocket, upcoming,
@@ -112,38 +133,49 @@ const Launchs = () => {
   return (
     <>
       <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
-        <Divider orientation="left">Filters</Divider>
-        <Row gutter={16} justify="space-around" align="middle">
-          <Col className="flright-number" span={3}>
-            <p>Flright Number</p>
-            <Select defaultValue="All" handleChange={(value) => filters.flightNumber = value} values={arrayOfFlrightNumber} />
+        <Row>
+          <Col span={4}>
+            <Col className="flright-number" span={24}>
+              <p>Flright Number</p>
+              <Select defaultValue="All" handleChange={(value) => filters.flightNumber = value} values={arrayOfFlrightNumber} />
+            </Col>
+            <Col className="launch-year" span={24}>
+              <p>Launch Year</p>
+              <Select defaultValue="All" handleChange={(value) => filters.launchYear = value} values={arrayOfLaunchYear} />
+            </Col>
+            <Col className="rocket-name'" span={24}>
+              <p>Rocet Name</p>
+              <Select defaultValue="All" handleChange={(value) => filters.rocketName = value} values={['All', 'Falcon Heavy', 'Falcon 9', 'Falcon 1']} />
+            </Col>
+            <Col className="rocket-core" span={24}>
+              <p>Rocet Core</p>
+              <Select defaultValue="All" handleChange={(value) => filters.rocketCore = value} values={['All', 'reused', 'not reused']} />
+            </Col>
+            <Col className="rocket-firing'" span={24}>
+              <p>Rocket Firing</p>
+              <Select defaultValue="All" handleChange={(value) => filters.rocketFiring = value} values={['All', 'reused', 'not reused']} />
+            </Col>
+            <Col className="landing'" span={24}>
+              <p>Landing</p>
+              <Select defaultValue="All" handleChange={(value) => filters.landing = value} values={['All', 'success', 'fail']} />
+            </Col>
+            <Col className="lanching'" span={24}>
+              <p>Lanching</p>
+              <Select defaultValue="All" handleChange={(value) => filters.lanching = value} values={['All', 'success', 'fail']} />
+            </Col>
           </Col>
-          <Col className="launch-year" span={3}>
-            <p>Launch Year</p>
-            <Select defaultValue="All" handleChange={(value) => filters.launchYear = value} values={arrayOfLaunchYear} />
+          <Col span={16}>
+            {isLoading ? <Table data={data}
+              columns={columns.filter((column) => hiddenColumns.indexOf(column.typeof) == -1)}
+            /> : <Spin />}
           </Col>
-          <Col className="rocket-name'" span={3}>
-            <p>Rocet Name</p>
-            <Select defaultValue="All" handleChange={(value) => filters.rocketName = value} values={['All', 'Falcon Heavy', 'Falcon 9', 'Falcon 1']} />
-          </Col>
-          <Col className="rocket-core" span={3}>
-            <p>Rocet Core</p>
-            <Select defaultValue="All" handleChange={(value) => filters.rocketCore = value} values={['All', 'reused', 'not reused']} />
-          </Col>
-          <Col className="rocket-firing'" span={3}>
-            <p>Rocket Firing</p>
-            <Select defaultValue="All" handleChange={(value) => filters.rocketFiring = value} values={['All', 'reused', 'not reused']} />
-          </Col>
-          <Col className="landing'" span={3}>
-            <p>Landing</p>
-            <Select defaultValue="All" handleChange={(value) => filters.landing = value} values={['All', 'success', 'fail']} />
-          </Col>
-          <Col className="lanching'" span={3}>
-            <p>Lanching</p>
-            <Select defaultValue="All" handleChange={(value) => filters.lanching = value} values={['All', 'success', 'fail']} />
+          <Col span={4}>
+            <Button onClick={() => setIsModalVisible(true)}>Setting</Button>
+            <Modal visible={isModalVisible} onCancel={() => setIsModalVisible(false)} footer="">
+              <Trancfer />
+            </Modal>
           </Col>
         </Row>
-        {isLoading ? <Table data={data} columns={columns} /> : <Spin />}
       </Space>
     </>
   );
