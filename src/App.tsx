@@ -3,7 +3,7 @@ import './App.css';
 import { useTranslation } from 'react-i18next';
 import { ConfigProvider, Layout, Space } from 'antd';
 import { Route, Routes } from 'react-router-dom';
-import { Card, NavigationMenu, Trancfer } from './components';
+import { Card, NavigationMenu } from './components';
 import { Launchs, Mission } from './pages';
 
 const { Header, Content } = Layout;
