@@ -24,7 +24,12 @@ const App = () => {
           <Header><NavigationMenu setLang={setLang} /></Header>
           <Content>
             <Routes>
-              <Route path="/" element={<Launchs />} />
+              <Route
+                path="/"
+                element={(
+                  <Launchs />
+)}
+              />
               <Route path="/missions" element={<Mission />} />
             </Routes>
           </Content>
