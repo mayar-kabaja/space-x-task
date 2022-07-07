@@ -6,7 +6,7 @@ import {
   observable, action, makeObservable, runInAction, computed,
 } from 'mobx';
 import { getLaunchs } from '../api';
-import { Launch } from '../../utils';
+import { Launch, Columns } from '../../utils';
 
 type obj = {
   launchYear: any,
@@ -81,7 +81,7 @@ class LaunchsStore {
     };
 
   @action
-    addHiddenColumns = (columns : string[]) => {
+    addHiddenColumns = (columns : any[]) => {
       this.hiddenColumns = columns;
     };
 }

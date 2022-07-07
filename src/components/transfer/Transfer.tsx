@@ -39,7 +39,6 @@ const Transfer: React.FC = () => {
     setTargetKeys(nextTargetKeys);
     addHiddenColumns(nextTargetKeys);
   };
-
   const onSelectChange = (sourceSelectedKeys: string[], targetSelectedKeys: string[]) => {
     setSelectedKeys([...sourceSelectedKeys, ...targetSelectedKeys]);
   };

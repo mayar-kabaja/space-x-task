@@ -3,8 +3,9 @@ import './App.css';
 import { useTranslation } from 'react-i18next';
 import { ConfigProvider, Layout, Space } from 'antd';
 import { Route, Routes } from 'react-router-dom';
-import { Card, NavigationMenu } from './components';
+import { NavigationMenu } from './components';
 import { Launchs, Mission } from './pages';
+import { DragAndDrop } from './drag&drop';
 
 const { Header, Content } = Layout;
 
