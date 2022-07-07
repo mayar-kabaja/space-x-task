@@ -5,6 +5,7 @@ import {
   Button,
   Col, Modal, Row, Space, Spin, Divider,
 } from 'antd';
+import { Column } from '../../utils';
 import { Select, Table, Trancfer } from '../../components';
 import { useRootStore } from '../../RootStateContext';
 import { DragAndDrop } from '../../drag&drop';
@@ -26,7 +27,7 @@ const Launchs = () => {
     getLaunch, isLoading, filters, filteredLaunchs, hiddenColumns,
   } = launchsStore;
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [columns, setColumns] = useState<any>([
+  const [columns, setColumns] = useState<Column[]>([
     {
       title: 'Mission Icon',
       dataIndex: 'missionIcon',
@@ -159,7 +160,7 @@ const Launchs = () => {
         <Col span={16}>
           {isLoading ? <Table
             data={data}
-            columns={columns.filter((column:any) => hiddenColumns.indexOf(column.id) === -1)}
+            columns={columns.filter((column:Column) => hiddenColumns.indexOf(column.id) === -1)}
           /> : <Spin />}
         </Col>
         <Col span={4}>
@@ -169,7 +170,10 @@ const Launchs = () => {
               <Divider orientation="left"> Show And Hidden Columns </Divider>
               <Trancfer />
               <Divider orientation="left"> Drag And Drop Columns </Divider>
-              <DragAndDrop items={columns} setItems={setColumns} />
+              <DragAndDrop
+                items={columns.filter((column:Column) => hiddenColumns.indexOf(column.id) === -1)}
+                setItems={setColumns}
+              />
             </Space>
           </Modal>
         </Col>

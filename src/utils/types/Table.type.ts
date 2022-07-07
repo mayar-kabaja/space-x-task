@@ -13,3 +13,10 @@ export type Columns = {
   'Rocket country': string;
   'Is upcoming': string;
 };
+
+export type Column = {
+  title: string,
+  dataIndex: string,
+  render ?: any,
+  id: string,
+}
