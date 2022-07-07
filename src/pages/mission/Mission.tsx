@@ -1,6 +1,7 @@
 import {
-  Col, List, Modal, Row, Space, Spin, Divider,
+  Col, Modal, Row, Space, Spin, Divider, Pagination,
 } from 'antd';
+import type { PaginationProps } from 'antd';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react';
 import { Card } from '../../components';
@@ -14,15 +15,31 @@ function Missions() {
   const [oneMission, setOneMission] = useState<Mission[]>();
   const [payload, setPayload] = useState<Payload[]>();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [cardsPerPage, setCardsPerPage] = useState(10);
+
+  const indexOfLastCard = currentPage * cardsPerPage;
+  const indexOfFirstCard = indexOfLastCard - cardsPerPage;
+  const currentCards = missions.slice(indexOfFirstCard, indexOfLastCard);
 
   useEffect(() => {
     addMissions();
   }, [isLoading, Missions]);
 
-  const handleClick = async (mission:any) => {
+  const itemRender: PaginationProps['itemRender'] = (_, type, originalElement) => {
+    if (type === 'prev') {
+      return <a>Previous</a>;
+    }
+    if (type === 'next') {
+      return <a>Next</a>;
+    }
+    return originalElement;
+  };
+
+  const handleClick = async (mission:Mission) => {
     setOneMission([mission]);
     const { payload_ids } = mission;
-    const urls = payload_ids.reduce((axiosCalls: string[], url: any) => {
+    const urls = payload_ids.reduce((axiosCalls: string[], url: string) => {
       axiosCalls.push(`https://api.spacexdata.com/v3/payloads/${url}`);
       return axiosCalls;
     }, []);
@@ -38,7 +55,7 @@ function Missions() {
     setIsModalVisible(true);
   };
   return (
-    <div style={{ display: 'flex', width: '100%' }}>
+    <div style={{ display: 'flex', width: '100%', flexDirection: 'column' }}>
       <Modal visible={isModalVisible} onCancel={() => setIsModalVisible(false)} footer="">
         <Row>
           {
@@ -114,7 +131,7 @@ function Missions() {
       {
         isLoading ? (
           <Row>
-            {missions.map(
+            {currentCards.map(
               ({
                 mission_name,
                 description,
@@ -161,6 +178,7 @@ function Missions() {
         )
           : <Spin />
       }
+      <Pagination total={20} onChange={setCurrentPage} itemRender={itemRender} />
     </div>
   );
 }

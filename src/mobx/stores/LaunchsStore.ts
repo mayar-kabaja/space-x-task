@@ -1,12 +1,10 @@
 /* eslint-disable no-mixed-operators */
 /* eslint-disable eqeqeq */
-/* eslint-disable max-len */
-/* eslint-disable class-methods-use-this */
 import {
-  observable, action, makeObservable, runInAction, computed,
+  observable, action, makeObservable, computed,
 } from 'mobx';
 import { getLaunchs } from '../api';
-import { Launch, Columns } from '../../utils';
+import { Launch } from '../../utils';
 
 type obj = {
   launchYear: any,
@@ -41,7 +39,10 @@ class LaunchsStore {
   @computed
   get filteredLaunchs() {
     const filtered = this.launchs.filter(({
-      flight_number, launch_year, launch_success, rocket: { first_stage: { cores: [{ land_success, reused }] }, rocket_name, fairings },
+      flight_number,
+      launch_year,
+      launch_success,
+      rocket: { first_stage: { cores: [{ land_success, reused }] }, rocket_name, fairings },
     }) => {
       const {
         flightNumber, launchYear, lanching, landing, rocketCore, rocketFiring, rocketName,
@@ -81,7 +82,7 @@ class LaunchsStore {
     };
 
   @action
-    addHiddenColumns = (columns : any[]) => {
+    addHiddenColumns = (columns : string[]) => {
       this.hiddenColumns = columns;
     };
 }

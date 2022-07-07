@@ -3,7 +3,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { observer } from 'mobx-react-lite';
 
-const Column = ({
+const Columns = ({
   id,
   title,
 }:any) => {
@@ -38,4 +38,4 @@ const Column = ({
   );
 };
 
-export default observer(Column);
+export default observer(Columns);

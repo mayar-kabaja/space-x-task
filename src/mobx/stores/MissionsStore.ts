@@ -1,4 +1,3 @@
-/* eslint-disable class-methods-use-this */
 import {
   observable, action, makeObservable, runInAction,
 } from 'mobx';

@@ -1,12 +1,10 @@
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
-import { ItemType } from 'antd/lib/menu/hooks/useItems';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { SettingOutlined, RocketOutlined } from '@ant-design/icons';
 import { observer } from 'mobx-react-lite';
-import { useRootStore } from '../../RootStateContext';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -32,23 +30,29 @@ function getItem(
 
 const NavigationMenu: React.FC<IMyProps> = ({ setLang }: IMyProps) => {
   const { t } = useTranslation();
-  const { launchsStore } = useRootStore();
-  const { filters } = launchsStore;
   const navigate = useNavigate();
 
-  const onClick = ({ key, keyPath }: any) => {
-    if (keyPath[1] === 'flight-number') {
-      filters.flightNumber = +key;
-    } else if (key === 'ar' || key === 'en') {
-      setLang(key);
-    } else if (key === 'kg' || key === 'lbs') {
-      localStorage.setItem('weight', key);
-    } else if (key === 'feet' || key === 'meters') {
-      localStorage.setItem('distance', key);
-    } else if (key === 'missions') {
-      navigate('/missions');
-    } else if (key === 'launchs') {
-      navigate('/');
+  const onClick = ({ key } : any) => {
+    switch (key) {
+      case 'ar':
+      case 'an':
+        setLang(key);
+        break;
+      case 'kg':
+      case 'lbs':
+        localStorage.setItem('weight', key);
+        break;
+      case 'kg':
+      case 'lbs':
+        localStorage.setItem('distance', key);
+        break;
+      case 'missions':
+        navigate('/missions');
+        break;
+      case 'launchs':
+        navigate('/');
+        break;
+      default:
     }
   };
   const items = [

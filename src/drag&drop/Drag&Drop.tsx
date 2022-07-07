@@ -7,16 +7,22 @@ import {
   arrayMove, SortableContext, verticalListSortingStrategy, useSortable,
 } from '@dnd-kit/sortable';
 import React from 'react';
-import Column from './Column';
+import Columns from './Columns';
+import { Column } from '../utils/types';
 
-function DragAndDrop({ items, setItems }: any) {
+interface MyProps {
+  items : Column[]
+  setItems : (items: any) => any
+}
+
+function DragAndDrop({ items, setItems } : MyProps) {
   const sensors = [useSensor(PointerSensor)];
 
   const handleDragEnd = ({ active, over }:any) => {
     if (active.id !== over.id) {
-      setItems((items:any) => {
-        const oldIndex = items.findIndex((item: { id: any; }) => item.id === active.id);
-        const newIndex = items.findIndex((item: { id: any; }) => item.id === over.id);
+      setItems((items: Column[]) => {
+        const oldIndex = items.findIndex((item: Column) => item.id === active.id);
+        const newIndex = items.findIndex((item: Column) => item.id === over.id);
 
         return arrayMove(items, oldIndex, newIndex);
       });
@@ -44,7 +50,7 @@ function DragAndDrop({ items, setItems }: any) {
         >
           {
             items.map(
-              (item:any) => <Column {...item} key={item.id} />,
+              (item:any) => <Columns {...item} key={item.id} />,
             )
           }
         </SortableContext>

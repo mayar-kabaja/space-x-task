@@ -3,6 +3,7 @@ import {
   Columns,
   Mission,
   Payload,
+  Column,
 } from './types';
 
 export {
@@ -10,4 +11,5 @@ export {
   Columns,
   Mission,
   Payload,
+  Column,
 };
