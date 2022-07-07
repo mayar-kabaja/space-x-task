@@ -35,7 +35,7 @@ const NavigationMenu: React.FC<IMyProps> = ({ setLang }: IMyProps) => {
   const onClick = ({ key } : any) => {
     switch (key) {
       case 'ar':
-      case 'an':
+      case 'en':
         setLang(key);
         break;
       case 'kg':
