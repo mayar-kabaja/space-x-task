@@ -47,6 +47,8 @@ const NavigationMenu: React.FC<IMyProps> = ({ setLang }: IMyProps) => {
       localStorage.setItem('distance', key);
     } else if (key === 'missions') {
       navigate('/missions');
+    } else if (key === 'launchs') {
+      navigate('/');
     }
   };
   const items = [
@@ -62,7 +64,7 @@ const NavigationMenu: React.FC<IMyProps> = ({ setLang }: IMyProps) => {
       ]),
     ]),
 
-    getItem(t('launch'), 'launch', <RocketOutlined />),
+    getItem(t('launchs'), 'launchs', <RocketOutlined />),
     getItem(t('missions'), 'missions', null),
   ];
   return (
