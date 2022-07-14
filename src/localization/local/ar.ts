@@ -9,7 +9,7 @@ const ar = {
   distance: 'المسافة',
   feet: 'قدم',
   meters: 'متر',
-  launch: 'الاطلاق',
+  launchs: 'الاطلاق',
   'launch year': 'سنة الاطلاق',
   'rocket core': 'محتوى الصاروخ',
   'flight number': 'رقم الطيران',
