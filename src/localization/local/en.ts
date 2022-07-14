@@ -9,7 +9,7 @@ const en = {
   distance: 'Distance',
   feet: 'feet',
   meters: 'meters',
-  launch: 'Lanuch',
+  launchs: 'Lanuch',
   'launch year': 'Launch Year',
   'rocket core': 'Rocket Core',
   'flight number': 'Flight Number',

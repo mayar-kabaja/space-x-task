@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { SettingOutlined, RocketOutlined } from '@ant-design/icons';
 import { observer } from 'mobx-react-lite';
+import { isMethodSignature } from 'typescript';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -35,7 +36,7 @@ const NavigationMenu: React.FC<IMyProps> = ({ setLang }: IMyProps) => {
   const onClick = ({ key } : any) => {
     switch (key) {
       case 'ar':
-      case 'an':
+      case 'en':
         setLang(key);
         break;
       case 'kg':
